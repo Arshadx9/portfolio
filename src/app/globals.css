@@ -1,1 +1,37 @@
-@import "tailwindcss";
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
+
+body {
+	background: #1e1e1e;
+	color: #d4d4d4;
+	font-family: 'Fira Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+}
+
+.terminal {
+	background: #1e1e1e;
+	border-radius: 8px;
+	box-shadow: 0 4px 24px 0 #000a;
+	padding: 2rem 1.5rem 1.5rem 1.5rem;
+	max-width: 600px;
+	margin: 2rem auto;
+	border: 1px solid #333;
+}
+.terminal-bar {
+	display: flex;
+	gap: 0.5rem;
+	margin-bottom: 1.5rem;
+}
+.terminal-dot {
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	display: inline-block;
+}
+.dot-red { background: #ff5f56; }
+.dot-yellow { background: #ffbd2e; }
+.dot-green { background: #27c93f; }
+.terminal-content {
+	font-size: 1.1rem;
+	line-height: 1.7;
+	white-space: pre-line;
+}
