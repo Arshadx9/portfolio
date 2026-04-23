@@ -31,6 +31,13 @@ const projects = [
     live: "http://13.63.125.183:3000",
     github: "https://github.com/Arshadx9/Guardium.co",
   },
+  {
+    name: "zentra",
+    desc: "Full-stack RAG application — upload PDFs, embed and index document data, then query it through a chat interface. Includes user authentication and a personal dashboard.",
+    stack: ["Node.js", "TypeScript", "React", "Vite", "PostgreSQL"],
+    live: "https://zentra-75mx.vercel.app",
+    github: "https://github.com/Arshadx9/Zentra",
+  },
 ];
 
 const skills = {
@@ -47,13 +54,17 @@ const reading = [
   { title: "Power vs Force — David R. Hawkins", href: "https://openlibrary.org/works/OL82563W/Power_vs_Force" },
 ];
 
-function Prompt({ path = "~", cmd }: { path?: string; cmd: string }) {
+function Prompt({ path = "~", cmd, showUser = true }: { path?: string; cmd: string; showUser?: boolean }) {
   return (
     <div className="flex items-baseline gap-2 mb-1">
       <span className="font-mono text-xs whitespace-nowrap">
-        <span style={{ color: colors.accent }}>arshad</span>
-        <span style={{ color: colors.subtle }}>@</span>
-        <span style={{ color: "#5fa8d3" }}>prod</span>{" "}
+        {showUser && (
+          <>
+            <span style={{ color: colors.accent }}>arshad</span>
+            <span style={{ color: colors.subtle }}>@</span>
+            <span style={{ color: "#5fa8d3" }}>prod</span>{" "}
+          </>
+        )}
         <span style={{ color: "#9b8fcc" }}>{path}</span>{" "}
         <span style={{ color: colors.primary }}>$</span>
       </span>
@@ -136,7 +147,7 @@ export default function Home() {
 
         {/* PROJECTS */}
         <section id="projects" style={{ marginBottom: 40 }}>
-          <Prompt path="~/projects" cmd="" />
+          <Prompt path="~/projects" cmd="" showUser={false} />
 
           {projects.map((p) => (
             <div
@@ -144,7 +155,7 @@ export default function Home() {
               style={{
                 border: `1px solid ${colors.border}`,
                 background: colors.panel,
-                padding: "40px 18px 18px 18px", // ✅ space for buttons
+                padding: "40px 18px 18px 18px",
                 marginBottom: 12,
                 position: "relative",
               }}
@@ -157,7 +168,6 @@ export default function Home() {
                 {p.desc}
               </p>
 
-              {/* ✅ STACK (RESTORED) */}
               <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 10 }}>
                 {p.stack.map((t) => (
                   <span
@@ -203,7 +213,7 @@ export default function Home() {
 
         {/* SKILLS */}
         <section style={{ marginBottom: 40 }}>
-          <Prompt cmd="skills --core" />
+          <Prompt cmd="skills --core" showUser={false} />
 
           {Object.entries(skills).map(([category, items]) => (
             <div key={category} style={{ marginBottom: 16 }}>
@@ -228,7 +238,7 @@ export default function Home() {
 
         {/* READING */}
         <section id="reading">
-          <Prompt path="~/reading" cmd="" />
+          <Prompt path="~/reading" cmd="" showUser={false} />
           <ul style={{ listStyle: "none", padding: 0 }}>
             {reading.map((r, i) => (
               <li key={i} style={{ fontSize: 12 }}>
