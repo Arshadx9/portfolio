@@ -196,6 +196,7 @@ export default function Home() {
               marginBottom: 12,
               position: "relative",
               transition: "background 0.3s, border-color 0.3s",
+              cursor: "pointer",
             }}>
               <p style={{ fontWeight: "bold", marginBottom: 6, color: t.primary, margin: "0 0 6px" }}>
                 [{p.name}]
