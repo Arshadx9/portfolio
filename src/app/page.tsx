@@ -32,13 +32,22 @@ const light = {
   promptPurple: "#5030a0",
 };
 
+const experience = [
+  {
+    company: "Meti M2M Pvt. Limited",
+    role: "intern",
+    desc: "Industry 4.0 / IoT platform deployed at Titan Company's (Tanishq) jewellery manufacturing facility, tracking real-time production stages across multiple manufacturing divisions. Live stage status is displayed on TVs across the factory floor, giving visibility into which step of the process is currently active.",
+    focus: "Building the web version of the platform.",
+  },
+];
+
 const projects = [
   {
     name: "dagflow",
     desc: "Distributed job scheduler & workflow automation platform. Handles server crashes, restarts, and network partitions without flinching.",
     stack: ["Node.js", "TypeScript", "BullMQ", "Redis", "PostgreSQL"],
     live: "https://dagflow-web.vercel.app",
-    github: "https://github.com/Arshadx9/Dagflow",
+    github: "https://github.com/Arshadx9/Dagflo",
   },
   {
     name: "guardium",
@@ -47,12 +56,13 @@ const projects = [
     live: "http://13.63.125.183:3000",
     github: "https://github.com/Arshadx9/Guardium.co",
   },
+];
+
+const links = [
+  { label: "github", href: "https://github.com/Arshadx9" },
   {
-    name: "zentra",
-    desc: "Full-stack RAG application — upload PDFs, embed and index document data, then query it through a chat interface. Includes user authentication and a personal dashboard.",
-    stack: ["Node.js", "TypeScript", "React", "Vite", "PostgreSQL"],
-    live: "https://zentra-75mx.vercel.app",
-    github: "https://github.com/Arshadx9/Zentra",
+    label: "linkedin",
+    href: "https://www.linkedin.com/in/arshad-zeon-45aa04387/",
   },
 ];
 
@@ -211,9 +221,10 @@ export default function Home() {
             }}
           >
             {[
+              { href: "#experience", label: "./experience" },
               { href: "#projects", label: "./projects" },
               { href: "#reading", label: "./reading" },
-              { href: "mailto:arshad@example.com", label: "./contact" },
+              { href: "#links", label: "./links" },
             ].map((l) => (
               <a
                 key={l.label}
@@ -296,6 +307,81 @@ export default function Home() {
             College student from Bengaluru. Working on workflow engines,
             distributed systems, API platforms.
           </p>
+        </section>
+
+        {/* EXPERIENCE */}
+        <section id="experience" style={{ marginBottom: 40 }}>
+          <Prompt path="~/experience" cmd="" showUser={false} t={t} />
+
+          {experience.map((e) => (
+            <div
+              key={e.company}
+              style={{
+                border: `1px solid ${t.border}`,
+                background: t.panel,
+                padding: 18,
+                marginBottom: 12,
+                transition: "background 0.3s, border-color 0.3s",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  alignItems: "baseline",
+                  gap: 8,
+                  marginBottom: 8,
+                }}
+              >
+                <p
+                  style={{
+                    fontWeight: "bold",
+                    color: t.primary,
+                    margin: 0,
+                  }}
+                >
+                  [{e.company}]
+                </p>
+
+                <span
+                  style={{
+                    fontSize: 10,
+                    color: t.accent,
+                    border: `1px solid ${t.accent}55`,
+                    padding: "2px 8px",
+                    background: t.bg,
+                    transition: "background 0.3s",
+                  }}
+                >
+                  {e.role}
+                </span>
+              </div>
+
+              <p
+                style={{
+                  fontSize: 13,
+                  color: t.secondary,
+                  lineHeight: 1.8,
+                  margin: "0 0 10px",
+                }}
+              >
+                {e.desc}
+              </p>
+
+              <p
+                style={{
+                  fontSize: 13,
+                  color: t.secondary,
+                  lineHeight: 1.8,
+                  borderLeft: `2px solid ${t.border}`,
+                  paddingLeft: 12,
+                  margin: 0,
+                }}
+              >
+                {e.focus}
+              </p>
+            </div>
+          ))}
         </section>
 
         {/* PROJECTS */}
@@ -446,6 +532,33 @@ export default function Home() {
               </li>
             ))}
           </ul>
+        </section>
+
+        {/* LINKS */}
+        <section id="links" style={{ marginTop: 40 }}>
+          <Prompt path="~/links" cmd="" showUser={false} t={t} />
+
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            {links.map((l) => (
+              <a
+                key={l.label}
+                href={l.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  fontSize: 11,
+                  color: t.accent,
+                  padding: "4px 10px",
+                  border: `1px solid ${t.accent}55`,
+                  background: t.panel,
+                  textDecoration: "none",
+                  transition: "all 0.2s",
+                }}
+              >
+                → {l.label}
+              </a>
+            ))}
+          </div>
         </section>
 
         <div
