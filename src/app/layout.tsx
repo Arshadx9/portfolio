@@ -22,7 +22,7 @@ export default function RootLayout({
         />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Outfit:wght@400;500;600&display=swap"
         />
         <script
           dangerouslySetInnerHTML={{

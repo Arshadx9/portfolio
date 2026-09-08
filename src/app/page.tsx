@@ -193,15 +193,15 @@ export default function Home() {
         }}
       >
         {/* INTRO */}
-        <section style={{ marginBottom: 56 }}>
+        <section style={{ marginBottom: 38 }}>
           <h1
             style={{
               color: t.primary,
               margin: "0 0 8px",
-              fontFamily: "'Newsreader', Georgia, serif",
+              fontFamily: "'Outfit', system-ui, sans-serif",
               fontSize: 34,
-              fontWeight: 600,
-              letterSpacing: "-0.015em",
+              fontWeight: 500,
+              letterSpacing: "-0.045em",
               lineHeight: 1.1,
             }}
           >
@@ -235,7 +235,7 @@ export default function Home() {
         </section>
 
         {/* EXPERIENCE */}
-        <section id="experience" style={{ marginBottom: 56 }}>
+        <section id="experience" style={{ marginBottom: 38 }}>
           <Heading label="experience" t={t} />
 
           {experience.map((e) => (
@@ -309,7 +309,7 @@ export default function Home() {
         </section>
 
         {/* PROJECTS */}
-        <section id="projects" style={{ marginBottom: 56 }}>
+        <section id="projects" style={{ marginBottom: 38 }}>
           <Heading label="projects" t={t} />
 
           {projects.map((p) => (
@@ -401,7 +401,7 @@ export default function Home() {
         </section>
 
         {/* READING */}
-        <section id="reading" style={{ marginBottom: 56 }}>
+        <section id="reading" style={{ marginBottom: 38 }}>
           <Heading label="reading" t={t} />
 
           <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
@@ -452,12 +452,12 @@ export default function Home() {
 
         <div
           style={{
-            marginTop: 72,
+            marginTop: 48,
             fontSize: 11,
             color: t.subtle,
           }}
         >
-          © arshad 2025
+          all truths are half truths
         </div>
       </main>
     </div>
