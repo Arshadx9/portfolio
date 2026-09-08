@@ -32,6 +32,7 @@ const experience = [
   {
     company: "Meti M2M Pvt. Limited",
     role: "intern",
+    period: "june - present",
     desc: "Industry 4.0 / IoT platform deployed at Titan Company's (Tanishq) jewellery manufacturing facility, tracking real-time production stages across multiple manufacturing divisions. Live stage status is displayed on TVs across the factory floor, giving visibility into which step of the process is currently active.",
   },
 ];
@@ -197,7 +198,10 @@ export default function Home() {
             style={{
               color: t.primary,
               margin: "0 0 8px",
-              fontSize: 40,
+              fontFamily: "'Newsreader', Georgia, serif",
+              fontSize: 34,
+              fontWeight: 600,
+              letterSpacing: "-0.015em",
               lineHeight: 1.1,
             }}
           >
@@ -276,6 +280,17 @@ export default function Home() {
                   }}
                 >
                   {e.role}
+                </span>
+
+                <span
+                  style={{
+                    fontSize: 12,
+                    color: t.muted,
+                    marginLeft: "auto",
+                    transition: "color 0.3s",
+                  }}
+                >
+                  {e.period}
                 </span>
               </div>
 
