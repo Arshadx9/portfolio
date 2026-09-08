@@ -79,7 +79,7 @@ function Heading({ label, t }: { label: string; t: Theme }) {
     <h2
       style={{
         fontFamily: "'JetBrains Mono', monospace",
-        fontSize: 26,
+        fontSize: 22,
         fontWeight: 700,
         color: t.accent,
         letterSpacing: "0.02em",
@@ -152,7 +152,7 @@ export default function Home() {
                 href={l.href}
                 style={{
                   color: t.secondary,
-                  fontSize: 14,
+                  fontSize: 13,
                   textDecoration: "none",
                   transition: "color 0.2s",
                 }}
@@ -170,7 +170,7 @@ export default function Home() {
               border: `1px solid ${t.border}`,
               color: t.muted,
               fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 12,
+              fontSize: 11,
               padding: "4px 11px",
               cursor: "pointer",
               borderRadius: 3,
@@ -197,7 +197,7 @@ export default function Home() {
             style={{
               color: t.primary,
               margin: "0 0 8px",
-              fontSize: 46,
+              fontSize: 40,
               lineHeight: 1.1,
             }}
           >
@@ -206,7 +206,7 @@ export default function Home() {
 
           <p
             style={{
-              fontSize: 17,
+              fontSize: 15,
               color: t.secondary,
               margin: "0 0 16px",
             }}
@@ -216,7 +216,7 @@ export default function Home() {
 
           <p
             style={{
-              fontSize: 18,
+              fontSize: 16,
               color: t.secondary,
               lineHeight: 1.85,
               borderLeft: `2px solid ${t.border}`,
@@ -226,8 +226,7 @@ export default function Home() {
               transition: "border-color 0.3s",
             }}
           >
-            Tinkering with distributed systems. Workflow engines, job queues,
-            and the failure modes that only surface under load.
+            Tinkering with backend / distributed systems.
           </p>
         </section>
 
@@ -258,7 +257,7 @@ export default function Home() {
                 <p
                   style={{
                     fontWeight: "bold",
-                    fontSize: 20,
+                    fontSize: 18,
                     color: t.primary,
                     margin: 0,
                   }}
@@ -268,7 +267,7 @@ export default function Home() {
 
                 <span
                   style={{
-                    fontSize: 12,
+                    fontSize: 11,
                     color: t.accent,
                     border: `1px solid ${t.accent}55`,
                     padding: "3px 10px",
@@ -282,7 +281,7 @@ export default function Home() {
 
               <p
                 style={{
-                  fontSize: 16.5,
+                  fontSize: 15,
                   color: t.secondary,
                   lineHeight: 1.85,
                   margin: 0,
@@ -313,7 +312,7 @@ export default function Home() {
               <p
                 style={{
                   fontWeight: "bold",
-                  fontSize: 20,
+                  fontSize: 18,
                   color: t.primary,
                   margin: "0 0 10px",
                 }}
@@ -323,7 +322,7 @@ export default function Home() {
 
               <p
                 style={{
-                  fontSize: 16.5,
+                  fontSize: 15,
                   color: t.secondary,
                   lineHeight: 1.85,
                   margin: "0 0 14px",
@@ -337,7 +336,7 @@ export default function Home() {
                   <span
                     key={tag}
                     style={{
-                      fontSize: 12,
+                      fontSize: 11,
                       color: t.secondary,
                       border: `1px solid ${t.border}`,
                       padding: "3px 9px",
@@ -369,7 +368,7 @@ export default function Home() {
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{
-                      fontSize: 12,
+                      fontSize: 11,
                       padding: "3px 10px",
                       border: `1px solid ${t.accent}55`,
                       color: t.accent,
@@ -392,7 +391,7 @@ export default function Home() {
 
           <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
             {reading.map((r, i) => (
-              <li key={i} style={{ fontSize: 15.5, marginBottom: 8 }}>
+              <li key={i} style={{ fontSize: 14, marginBottom: 8 }}>
                 <a
                   href={r.href}
                   target="_blank"
@@ -421,7 +420,7 @@ export default function Home() {
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
-                  fontSize: 15,
+                  fontSize: 13.5,
                   color: t.accent,
                   padding: "6px 14px",
                   border: `1px solid ${t.accent}55`,
@@ -439,7 +438,7 @@ export default function Home() {
         <div
           style={{
             marginTop: 72,
-            fontSize: 12,
+            fontSize: 11,
             color: t.subtle,
           }}
         >
