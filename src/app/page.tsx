@@ -13,8 +13,6 @@ const dark = {
   accent: "#7fff7f",
   navBg: "#0d0d0d",
   scanlines: true,
-  promptBlue: "#5fa8d3",
-  promptPurple: "#9b8fcc",
 };
 
 const light = {
@@ -28,8 +26,6 @@ const light = {
   accent: "#1a7a1a",
   navBg: "#f0f0eb",
   scanlines: false,
-  promptBlue: "#1a6090",
-  promptPurple: "#5030a0",
 };
 
 const experience = [
@@ -37,7 +33,6 @@ const experience = [
     company: "Meti M2M Pvt. Limited",
     role: "intern",
     desc: "Industry 4.0 / IoT platform deployed at Titan Company's (Tanishq) jewellery manufacturing facility, tracking real-time production stages across multiple manufacturing divisions. Live stage status is displayed on TVs across the factory floor, giving visibility into which step of the process is currently active.",
-    focus: "Building the web version of the platform.",
   },
 ];
 
@@ -66,28 +61,6 @@ const links = [
   },
 ];
 
-const skills = {
-  development: [
-    "Node.js",
-    "TypeScript",
-    "Express",
-    "MongoDB",
-    "Mongoose",
-    "PostgreSQL",
-    "Prisma",
-    "Redis",
-    "BullMQ",
-    "RabbitMQ",
-    "Socket.IO",
-    "JWT",
-    "Zod",
-    "Next.js",
-    "React",
-    "Tailwind CSS",
-  ],
-  infra: ["Docker Compose", "RabbitMQ", "MongoDB", "PostgreSQL", "Redis"],
-};
-
 const reading = [
   {
     title: "The Republic — Plato",
@@ -101,57 +74,23 @@ const reading = [
 
 type Theme = typeof dark;
 
-function Prompt({
-  path = "~",
-  cmd,
-  showUser = true,
-  t,
-}: {
-  path?: string;
-  cmd: string;
-  showUser?: boolean;
-  t: Theme;
-}) {
+function Heading({ label, t }: { label: string; t: Theme }) {
   return (
-    <div
+    <h2
       style={{
-        display: "flex",
-        alignItems: "baseline",
-        gap: 8,
-        marginBottom: 12,
+        fontFamily: "'JetBrains Mono', monospace",
+        fontSize: 26,
+        fontWeight: 700,
+        color: t.accent,
+        letterSpacing: "0.02em",
+        margin: "0 0 18px",
+        paddingBottom: 10,
+        borderBottom: `1px solid ${t.border}`,
+        transition: "color 0.3s, border-color 0.3s",
       }}
     >
-      <span
-        style={{
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: 20,
-          fontWeight: 700,
-          whiteSpace: "nowrap",
-        }}
-      >
-        {showUser && (
-          <>
-            <span style={{ color: t.accent }}>arshad</span>
-            <span style={{ color: t.subtle }}>@</span>
-            <span style={{ color: t.promptBlue }}>prod</span>{" "}
-          </>
-        )}
-
-        <span style={{ color: t.promptPurple }}>{path}</span>{" "}
-        <span style={{ color: t.primary }}>$</span>
-      </span>
-
-      <span
-        style={{
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: 20,
-          fontWeight: 700,
-          color: t.primary,
-        }}
-      >
-        {cmd}
-      </span>
-    </div>
+      {label}
+    </h2>
   );
 }
 
@@ -185,53 +124,35 @@ export default function Home() {
         />
       )}
 
-      {/* NAVBAR */}
-      <nav
-        style={{
-          position: "sticky",
-          top: 16,
-          zIndex: 50,
-          padding: "0 24px",
-        }}
-      >
+      {/* NAVBAR — scrolls away with the page, not sticky */}
+      <nav style={{ padding: "16px 24px 0" }}>
         <div
           style={{
-            maxWidth: 800,
+            maxWidth: 860,
             margin: "0 auto",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            padding: "10px 16px",
+            padding: "12px 18px",
             background: t.navBg,
             border: `1px solid ${t.border}`,
             borderRadius: 10,
             transition: "background 0.3s, border-color 0.3s",
           }}
         >
-          <div style={{ width: 40 }} />
-
-          {/* Nav links */}
-          <div
-            style={{
-              display: "flex",
-              gap: 32,
-              position: "absolute",
-              left: "50%",
-              transform: "translateX(-50%)",
-            }}
-          >
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 26 }}>
             {[
-              { href: "#experience", label: "./experience" },
-              { href: "#projects", label: "./projects" },
-              { href: "#reading", label: "./reading" },
-              { href: "#links", label: "./links" },
+              { href: "#experience", label: "experience" },
+              { href: "#projects", label: "projects" },
+              { href: "#reading", label: "reading" },
+              { href: "#links", label: "links" },
             ].map((l) => (
               <a
                 key={l.label}
                 href={l.href}
                 style={{
                   color: t.secondary,
-                  fontSize: 12,
+                  fontSize: 14,
                   textDecoration: "none",
                   transition: "color 0.2s",
                 }}
@@ -249,12 +170,13 @@ export default function Home() {
               border: `1px solid ${t.border}`,
               color: t.muted,
               fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 10,
-              padding: "3px 9px",
+              fontSize: 12,
+              padding: "4px 11px",
               cursor: "pointer",
               borderRadius: 3,
               letterSpacing: "0.05em",
               transition: "all 0.2s",
+              flex: "none",
             }}
           >
             {isLight ? "[ dark ]" : "[ light ]"}
@@ -264,54 +186,54 @@ export default function Home() {
 
       <main
         style={{
-          maxWidth: 800,
+          maxWidth: 860,
           margin: "0 auto",
-          padding: "40px 24px 80px",
+          padding: "48px 24px 96px",
         }}
       >
-        {/* WHOAMI */}
-        <section style={{ marginBottom: 40 }}>
-          <Prompt cmd="whoami -" t={t} />
-
+        {/* INTRO */}
+        <section style={{ marginBottom: 56 }}>
           <h1
             style={{
               color: t.primary,
-              margin: "8px 0 4px",
-              fontSize: 32,
+              margin: "0 0 8px",
+              fontSize: 46,
+              lineHeight: 1.1,
             }}
           >
-            Arshad<span style={{ color: t.accent }}>. </span>
+            Arshad<span style={{ color: t.accent }}>.</span>
           </h1>
 
           <p
             style={{
-              fontSize: 13,
+              fontSize: 17,
               color: t.secondary,
-              margin: "4px 0",
+              margin: "0 0 16px",
             }}
           >
-            Backend & Fullstack Engineer
+            Backend &amp; Fullstack Engineer
           </p>
 
           <p
             style={{
-              fontSize: 14,
+              fontSize: 18,
               color: t.secondary,
-              lineHeight: 1.9,
+              lineHeight: 1.85,
               borderLeft: `2px solid ${t.border}`,
-              paddingLeft: 16,
-              maxWidth: 560,
-              margin: "12px 0 0",
+              paddingLeft: 18,
+              maxWidth: 620,
+              margin: 0,
+              transition: "border-color 0.3s",
             }}
           >
-            College student from Bengaluru. Working on workflow engines,
-            distributed systems, API platforms.
+            Tinkering with distributed systems. Workflow engines, job queues,
+            and the failure modes that only surface under load.
           </p>
         </section>
 
         {/* EXPERIENCE */}
-        <section id="experience" style={{ marginBottom: 40 }}>
-          <Prompt path="~/experience" cmd="" showUser={false} t={t} />
+        <section id="experience" style={{ marginBottom: 56 }}>
+          <Heading label="experience" t={t} />
 
           {experience.map((e) => (
             <div
@@ -319,8 +241,8 @@ export default function Home() {
               style={{
                 border: `1px solid ${t.border}`,
                 background: t.panel,
-                padding: 18,
-                marginBottom: 12,
+                padding: 22,
+                marginBottom: 14,
                 transition: "background 0.3s, border-color 0.3s",
               }}
             >
@@ -329,26 +251,27 @@ export default function Home() {
                   display: "flex",
                   flexWrap: "wrap",
                   alignItems: "baseline",
-                  gap: 8,
-                  marginBottom: 8,
+                  gap: 10,
+                  marginBottom: 12,
                 }}
               >
                 <p
                   style={{
                     fontWeight: "bold",
+                    fontSize: 20,
                     color: t.primary,
                     margin: 0,
                   }}
                 >
-                  [{e.company}]
+                  {e.company}
                 </p>
 
                 <span
                   style={{
-                    fontSize: 10,
+                    fontSize: 12,
                     color: t.accent,
                     border: `1px solid ${t.accent}55`,
-                    padding: "2px 8px",
+                    padding: "3px 10px",
                     background: t.bg,
                     transition: "background 0.3s",
                   }}
@@ -359,34 +282,21 @@ export default function Home() {
 
               <p
                 style={{
-                  fontSize: 13,
+                  fontSize: 16.5,
                   color: t.secondary,
-                  lineHeight: 1.8,
-                  margin: "0 0 10px",
-                }}
-              >
-                {e.desc}
-              </p>
-
-              <p
-                style={{
-                  fontSize: 13,
-                  color: t.secondary,
-                  lineHeight: 1.8,
-                  borderLeft: `2px solid ${t.border}`,
-                  paddingLeft: 12,
+                  lineHeight: 1.85,
                   margin: 0,
                 }}
               >
-                {e.focus}
+                {e.desc}
               </p>
             </div>
           ))}
         </section>
 
         {/* PROJECTS */}
-        <section id="projects" style={{ marginBottom: 40 }}>
-          <Prompt path="~/projects" cmd="" showUser={false} t={t} />
+        <section id="projects" style={{ marginBottom: 56 }}>
+          <Heading label="projects" t={t} />
 
           {projects.map((p) => (
             <div
@@ -394,43 +304,43 @@ export default function Home() {
               style={{
                 border: `1px solid ${t.border}`,
                 background: t.panel,
-                padding: "40px 18px 18px 18px",
-                marginBottom: 12,
+                padding: "48px 22px 22px",
+                marginBottom: 14,
                 position: "relative",
                 transition: "background 0.3s, border-color 0.3s",
-                cursor: "pointer",
               }}
             >
               <p
                 style={{
                   fontWeight: "bold",
-                  marginBottom: 6,
+                  fontSize: 20,
                   color: t.primary,
-                  margin: "0 0 6px",
+                  margin: "0 0 10px",
                 }}
               >
-                [{p.name}]
+                {p.name}
               </p>
 
               <p
                 style={{
-                  fontSize: 13,
+                  fontSize: 16.5,
                   color: t.secondary,
-                  margin: "0 0 10px",
+                  lineHeight: 1.85,
+                  margin: "0 0 14px",
                 }}
               >
                 {p.desc}
               </p>
 
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                 {p.stack.map((tag) => (
                   <span
                     key={tag}
                     style={{
-                      fontSize: 10,
+                      fontSize: 12,
                       color: t.secondary,
                       border: `1px solid ${t.border}`,
-                      padding: "2px 7px",
+                      padding: "3px 9px",
                       background: t.bg,
                       transition: "background 0.3s, border-color 0.3s",
                     }}
@@ -443,10 +353,10 @@ export default function Home() {
               <div
                 style={{
                   position: "absolute",
-                  top: 12,
-                  right: 12,
+                  top: 14,
+                  right: 14,
                   display: "flex",
-                  gap: 6,
+                  gap: 8,
                 }}
               >
                 {[
@@ -457,9 +367,10 @@ export default function Home() {
                     key={btn.label}
                     href={btn.link}
                     target="_blank"
+                    rel="noopener noreferrer"
                     style={{
-                      fontSize: 10,
-                      padding: "2px 8px",
+                      fontSize: 12,
+                      padding: "3px 10px",
                       border: `1px solid ${t.accent}55`,
                       color: t.accent,
                       textDecoration: "none",
@@ -475,59 +386,23 @@ export default function Home() {
           ))}
         </section>
 
-        {/* SKILLS */}
-        <section style={{ marginBottom: 40 }}>
-          <Prompt cmd="skills --core" showUser={false} t={t} />
-
-          {Object.entries(skills).map(([category, items]) => (
-            <div key={category} style={{ marginBottom: 16 }}>
-              <p
-                style={{
-                  fontSize: 11,
-                  color: t.subtle,
-                  margin: "0 0 6px",
-                }}
-              >
-                {category}
-              </p>
-
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-                {items.map((s) => (
-                  <span
-                    key={s}
-                    style={{
-                      fontSize: 11,
-                      color: t.primary,
-                      padding: "4px 10px",
-                      border: `1px solid ${t.border}`,
-                      background: t.panel,
-                      transition: "background 0.3s, border-color 0.3s",
-                    }}
-                  >
-                    {s}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </section>
-
         {/* READING */}
-        <section id="reading">
-          <Prompt path="~/reading" cmd="" showUser={false} t={t} />
+        <section id="reading" style={{ marginBottom: 56 }}>
+          <Heading label="reading" t={t} />
 
           <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
             {reading.map((r, i) => (
-              <li key={i} style={{ fontSize: 12 }}>
+              <li key={i} style={{ fontSize: 15.5, marginBottom: 8 }}>
                 <a
                   href={r.href}
                   target="_blank"
+                  rel="noopener noreferrer"
                   style={{
                     color: t.secondary,
                     textDecoration: "none",
                   }}
                 >
-                  → {r.title}
+                  {r.title}
                 </a>
               </li>
             ))}
@@ -535,10 +410,10 @@ export default function Home() {
         </section>
 
         {/* LINKS */}
-        <section id="links" style={{ marginTop: 40 }}>
-          <Prompt path="~/links" cmd="" showUser={false} t={t} />
+        <section id="links">
+          <Heading label="links" t={t} />
 
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
             {links.map((l) => (
               <a
                 key={l.label}
@@ -546,16 +421,16 @@ export default function Home() {
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
-                  fontSize: 11,
+                  fontSize: 15,
                   color: t.accent,
-                  padding: "4px 10px",
+                  padding: "6px 14px",
                   border: `1px solid ${t.accent}55`,
                   background: t.panel,
                   textDecoration: "none",
                   transition: "all 0.2s",
                 }}
               >
-                → {l.label}
+                {l.label}
               </a>
             ))}
           </div>
@@ -563,8 +438,8 @@ export default function Home() {
 
         <div
           style={{
-            marginTop: 60,
-            fontSize: 10,
+            marginTop: 72,
+            fontSize: 12,
             color: t.subtle,
           }}
         >
