@@ -32,7 +32,7 @@ const experience = [
   {
     company: "Meti M2M Pvt. Limited",
     role: "intern",
-    period: "june - present",
+    period: "july - present",
     desc: "Industry 4.0 / IoT platform deployed at Titan Company's (Tanishq) jewellery manufacturing facility, tracking real-time production stages across multiple manufacturing divisions. Live stage status is displayed on TVs across the factory floor, giving visibility into which step of the process is currently active.",
   },
 ];
