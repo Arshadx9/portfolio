@@ -73,6 +73,15 @@ const reading = [
   },
 ];
 
+const cyberFiles = [
+  {
+    label: "########",
+    file: "/cyber/cybersecurity-lab-manual.pdf",
+    filename: "CyberSecurity-Lab-Manual.pdf",
+    meta: "pdf · 52 pages · 5.5 mb",
+  },
+];
+
 type Theme = typeof dark;
 
 function Heading({ label, t }: { label: string; t: Theme }) {
@@ -147,6 +156,7 @@ export default function Home() {
               { href: "#projects", label: "projects" },
               { href: "#reading", label: "reading" },
               { href: "#links", label: "links" },
+              { href: "#cyber", label: "cyber" },
             ].map((l) => (
               <a
                 key={l.label}
@@ -448,6 +458,48 @@ export default function Home() {
               </a>
             ))}
           </div>
+        </section>
+
+        {/* CYBER */}
+        <section id="cyber" style={{ marginTop: 38 }}>
+          <Heading label="cyber" t={t} />
+
+          {cyberFiles.map((f) => (
+            <a
+              key={f.file}
+              href={f.file}
+              download={f.filename}
+              style={{
+                display: "flex",
+                alignItems: "baseline",
+                flexWrap: "wrap",
+                gap: 10,
+                border: `1px solid ${t.border}`,
+                background: t.panel,
+                padding: "16px 20px",
+                textDecoration: "none",
+                transition: "background 0.3s, border-color 0.3s",
+              }}
+            >
+              <span style={{ fontSize: 15, color: t.primary }}>{f.label}</span>
+
+              <span style={{ fontSize: 11, color: t.muted }}>{f.meta}</span>
+
+              <span
+                style={{
+                  marginLeft: "auto",
+                  fontSize: 11,
+                  padding: "3px 10px",
+                  border: `1px solid ${t.accent}55`,
+                  color: t.accent,
+                  background: t.bg,
+                  transition: "all 0.2s",
+                }}
+              >
+                download
+              </span>
+            </a>
+          ))}
         </section>
 
         <div
