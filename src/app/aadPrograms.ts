@@ -638,4 +638,52 @@ int main() {
     return 0;
 }`,
   },
+  {
+    name: "BFS — Graph Traversal",
+    lang: "c",
+    code: String.raw`#include <stdio.h>
+
+int graph[20][20], visited[20], queue[20], n, front = 1, rear = 0;
+
+void bfs(int node)
+{
+    int neighbour;
+    queue[++rear] = node;
+    visited[node] = 1; // mark that node as visited.
+    while (front <= rear)
+    {
+        node = queue[front++];
+        for (neighbour = 1; neighbour <= n; neighbour++)
+            if (graph[node][neighbour] && !visited[neighbour])
+            {
+                visited[neighbour] = 1;
+                queue[++rear] = neighbour;
+            }
+    }
+}
+
+int main()
+{
+    int i, j, u;
+
+    printf("\n Enter number of vertices:");
+    scanf("%d", &n);
+
+    printf("\n Enter the adjacency matrix:\n");
+    for (i = 1; i <= n; i++)
+        for (j = 1; j <= n; j++)
+            scanf("%d", &graph[i][j]);
+
+    printf("\n Enter the starting vertex:");
+    scanf("%d", &u);
+
+    bfs(u);
+
+    for (i = 1; i <= n; i++)
+        if (visited[i])
+            printf("%d\t", i);
+
+    return 0;
+}`,
+  },
 ];

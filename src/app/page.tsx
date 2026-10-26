@@ -79,7 +79,7 @@ const cyberFiles = [
     label: "########",
     file: "/cyber/aad.pdf",
     filename: "aad.pdf",
-    meta: "pdf · 13 pages · 264 kb",
+    meta: "pdf · 14 pages · 257 kb",
   },
 ];
 
