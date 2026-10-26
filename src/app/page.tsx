@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { aadPrograms } from "./aadPrograms";
 
 const dark = {
   bg: "#0a0a0a",
@@ -76,9 +77,9 @@ const reading = [
 const cyberFiles = [
   {
     label: "########",
-    file: "/cyber/cybersecurity-lab-manual.pdf",
-    filename: "CyberSecurity-Lab-Manual.pdf",
-    meta: "pdf · 52 pages · 5.5 mb",
+    file: "/cyber/aad.pdf",
+    filename: "aad.pdf",
+    meta: "pdf · 13 pages · 264 kb",
   },
 ];
 
@@ -107,6 +108,24 @@ function Heading({ label, t }: { label: string; t: Theme }) {
 export default function Home() {
   const [isLight, setIsLight] = useState(true);
   const t = isLight ? light : dark;
+
+  const [showAad, setShowAad] = useState(false);
+  const [openProgram, setOpenProgram] = useState<number | null>(null);
+  const [copied, setCopied] = useState<number | null>(null);
+  const aadRef = useRef<HTMLElement>(null);
+  const [aadScrollTick, setAadScrollTick] = useState(0);
+
+  // The aad section only mounts once its nav link is clicked, so scroll after render.
+  useEffect(() => {
+    if (aadScrollTick) aadRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [aadScrollTick]);
+
+  function copyProgram(i: number) {
+    navigator.clipboard.writeText(aadPrograms[i].code).then(() => {
+      setCopied(i);
+      setTimeout(() => setCopied((c) => (c === i ? null : c)), 1500);
+    });
+  }
 
   return (
     <div
@@ -157,10 +176,20 @@ export default function Home() {
               { href: "#reading", label: "reading" },
               { href: "#links", label: "links" },
               { href: "#cyber", label: "cyber" },
+              { href: "#aad", label: "aad" },
             ].map((l) => (
               <a
                 key={l.label}
                 href={l.href}
+                onClick={
+                  l.label === "aad"
+                    ? (e) => {
+                        e.preventDefault();
+                        setShowAad(true);
+                        setAadScrollTick((n) => n + 1);
+                      }
+                    : undefined
+                }
                 style={{
                   color: t.secondary,
                   fontSize: 13,
@@ -501,6 +530,99 @@ export default function Home() {
             </a>
           ))}
         </section>
+
+        {/* AAD — hidden until its nav link is clicked */}
+        {showAad && (
+          <section id="aad" ref={aadRef} style={{ marginTop: 38 }}>
+            <Heading label="aad" t={t} />
+
+            {aadPrograms.map((prog, i) => {
+              const isOpen = openProgram === i;
+              return (
+                <div
+                  key={prog.name}
+                  style={{
+                    border: `1px solid ${t.border}`,
+                    background: t.panel,
+                    marginBottom: 8,
+                    transition: "background 0.3s, border-color 0.3s",
+                  }}
+                >
+                  <button
+                    onClick={() => setOpenProgram(isOpen ? null : i)}
+                    aria-expanded={isOpen}
+                    style={{
+                      display: "flex",
+                      alignItems: "baseline",
+                      gap: 12,
+                      width: "100%",
+                      background: "none",
+                      border: "none",
+                      padding: "13px 18px",
+                      cursor: "pointer",
+                      textAlign: "left",
+                      fontFamily: "'JetBrains Mono', monospace",
+                    }}
+                  >
+                    <span style={{ fontSize: 11, color: t.muted }}>
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span style={{ fontSize: 14, color: t.primary }}>
+                      {prog.name}
+                    </span>
+                    <span
+                      style={{
+                        marginLeft: "auto",
+                        fontSize: 11,
+                        color: t.accent,
+                        flex: "none",
+                      }}
+                    >
+                      {isOpen ? "[ − ]" : "[ + ]"}
+                    </span>
+                  </button>
+
+                  {isOpen && (
+                    <div style={{ position: "relative", padding: "0 18px 18px" }}>
+                      <button
+                        onClick={() => copyProgram(i)}
+                        style={{
+                          position: "absolute",
+                          top: 10,
+                          right: 28,
+                          fontFamily: "'JetBrains Mono', monospace",
+                          fontSize: 11,
+                          padding: "3px 10px",
+                          border: `1px solid ${t.accent}55`,
+                          color: t.accent,
+                          background: t.panel,
+                          cursor: "pointer",
+                        }}
+                      >
+                        {copied === i ? "copied" : "copy"}
+                      </button>
+                      <pre
+                        style={{
+                          margin: 0,
+                          padding: "16px 18px",
+                          background: t.bg,
+                          border: `1px solid ${t.border}`,
+                          color: t.secondary,
+                          fontSize: 12.5,
+                          lineHeight: 1.6,
+                          overflowX: "auto",
+                          transition: "background 0.3s, border-color 0.3s",
+                        }}
+                      >
+                        <code>{prog.code}</code>
+                      </pre>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </section>
+        )}
 
         <div
           style={{
