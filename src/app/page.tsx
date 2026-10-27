@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { aadPrograms } from "./aadPrograms";
+import { labExperiments, type Block } from "./labExperiments";
 
 const dark = {
   bg: "#0a0a0a",
@@ -77,9 +77,9 @@ const reading = [
 const cyberFiles = [
   {
     label: "########",
-    file: "/cyber/aad.pdf",
-    filename: "aad.pdf",
-    meta: "pdf · 14 pages · 257 kb",
+    file: "/cyber/cybersecurity-lab-manual.pdf",
+    filename: "CyberSecurity-Lab-Manual.pdf",
+    meta: "pdf · 52 pages · 5.5 mb",
   },
 ];
 
@@ -109,22 +109,107 @@ export default function Home() {
   const [isLight, setIsLight] = useState(true);
   const t = isLight ? light : dark;
 
-  const [showAad, setShowAad] = useState(false);
-  const [openProgram, setOpenProgram] = useState<number | null>(null);
-  const [copied, setCopied] = useState<number | null>(null);
-  const aadRef = useRef<HTMLElement>(null);
-  const [aadScrollTick, setAadScrollTick] = useState(0);
+  const [showTerminal, setShowTerminal] = useState(false);
+  const [openExperiment, setOpenExperiment] = useState<number | null>(null);
+  const [copied, setCopied] = useState<string | null>(null);
+  const terminalRef = useRef<HTMLElement>(null);
+  const [terminalScrollTick, setTerminalScrollTick] = useState(0);
 
-  // The aad section only mounts once its nav link is clicked, so scroll after render.
+  // The terminal section only mounts once its nav link is clicked, so scroll after render.
   useEffect(() => {
-    if (aadScrollTick) aadRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [aadScrollTick]);
+    if (terminalScrollTick)
+      terminalRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [terminalScrollTick]);
 
-  function copyProgram(i: number) {
-    navigator.clipboard.writeText(aadPrograms[i].code).then(() => {
-      setCopied(i);
-      setTimeout(() => setCopied((c) => (c === i ? null : c)), 1500);
+  function copyText(key: string, text: string) {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(key);
+      setTimeout(() => setCopied((c) => (c === key ? null : c)), 1500);
     });
+  }
+
+  function renderBlock(b: Block, key: string) {
+    if ("h" in b)
+      return (
+        <p
+          key={key}
+          style={{
+            fontSize: 13.5,
+            fontWeight: 700,
+            color: t.primary,
+            margin: "20px 0 8px",
+          }}
+        >
+          {b.h}
+        </p>
+      );
+    if ("p" in b)
+      return (
+        <p
+          key={key}
+          style={{
+            fontSize: 13.5,
+            color: t.secondary,
+            lineHeight: 1.75,
+            margin: "0 0 10px",
+          }}
+        >
+          {b.p}
+        </p>
+      );
+    if ("list" in b)
+      return (
+        <ul
+          key={key}
+          style={{
+            fontSize: 13.5,
+            color: t.secondary,
+            lineHeight: 1.75,
+            margin: "0 0 10px",
+            paddingLeft: 20,
+          }}
+        >
+          {b.list.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      );
+    return (
+      <div key={key} style={{ position: "relative", margin: "0 0 12px" }}>
+        <button
+          onClick={() => copyText(key, b.code)}
+          style={{
+            position: "absolute",
+            top: 7,
+            right: 7,
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: 10.5,
+            padding: "2px 8px",
+            border: `1px solid ${t.accent}55`,
+            color: t.accent,
+            background: t.bg,
+            cursor: "pointer",
+          }}
+        >
+          {copied === key ? "copied" : "copy"}
+        </button>
+        <pre
+          style={{
+            margin: 0,
+            padding: "10px 70px 10px 14px",
+            background: t.bg,
+            border: `1px solid ${t.border}`,
+            color: t.primary,
+            fontSize: 12.5,
+            lineHeight: 1.6,
+            overflowX: "auto",
+            transition: "background 0.3s, border-color 0.3s",
+          }}
+        >
+          <code>{b.code}</code>
+        </pre>
+      </div>
+    );
   }
 
   return (
@@ -176,17 +261,17 @@ export default function Home() {
               { href: "#reading", label: "reading" },
               { href: "#links", label: "links" },
               { href: "#cyber", label: "cyber" },
-              { href: "#aad", label: "aad" },
+              { href: "#terminal", label: "terminal" },
             ].map((l) => (
               <a
                 key={l.label}
                 href={l.href}
                 onClick={
-                  l.label === "aad"
+                  l.label === "terminal"
                     ? (e) => {
                         e.preventDefault();
-                        setShowAad(true);
-                        setAadScrollTick((n) => n + 1);
+                        setShowTerminal(true);
+                        setTerminalScrollTick((n) => n + 1);
                       }
                     : undefined
                 }
@@ -531,16 +616,16 @@ export default function Home() {
           ))}
         </section>
 
-        {/* AAD — hidden until its nav link is clicked */}
-        {showAad && (
-          <section id="aad" ref={aadRef} style={{ marginTop: 38 }}>
-            <Heading label="aad" t={t} />
+        {/* TERMINAL — hidden until its nav link is clicked */}
+        {showTerminal && (
+          <section id="terminal" ref={terminalRef} style={{ marginTop: 38 }}>
+            <Heading label="terminal" t={t} />
 
-            {aadPrograms.map((prog, i) => {
-              const isOpen = openProgram === i;
+            {labExperiments.map((exp, i) => {
+              const isOpen = openExperiment === i;
               return (
                 <div
-                  key={prog.name}
+                  key={exp.title}
                   style={{
                     border: `1px solid ${t.border}`,
                     background: t.panel,
@@ -549,7 +634,7 @@ export default function Home() {
                   }}
                 >
                   <button
-                    onClick={() => setOpenProgram(isOpen ? null : i)}
+                    onClick={() => setOpenExperiment(isOpen ? null : i)}
                     aria-expanded={isOpen}
                     style={{
                       display: "flex",
@@ -568,7 +653,7 @@ export default function Home() {
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span style={{ fontSize: 14, color: t.primary }}>
-                      {prog.name}
+                      {exp.title}
                     </span>
                     <span
                       style={{
@@ -583,39 +668,19 @@ export default function Home() {
                   </button>
 
                   {isOpen && (
-                    <div style={{ position: "relative", padding: "0 18px 18px" }}>
-                      <button
-                        onClick={() => copyProgram(i)}
-                        style={{
-                          position: "absolute",
-                          top: 10,
-                          right: 28,
-                          fontFamily: "'JetBrains Mono', monospace",
-                          fontSize: 11,
-                          padding: "3px 10px",
-                          border: `1px solid ${t.accent}55`,
-                          color: t.accent,
-                          background: t.panel,
-                          cursor: "pointer",
-                        }}
-                      >
-                        {copied === i ? "copied" : "copy"}
-                      </button>
-                      <pre
-                        style={{
-                          margin: 0,
-                          padding: "16px 18px",
-                          background: t.bg,
-                          border: `1px solid ${t.border}`,
-                          color: t.secondary,
-                          fontSize: 12.5,
-                          lineHeight: 1.6,
-                          overflowX: "auto",
-                          transition: "background 0.3s, border-color 0.3s",
-                        }}
-                      >
-                        <code>{prog.code}</code>
-                      </pre>
+                    <div style={{ padding: "0 18px 14px" }}>
+                      {exp.tools && (
+                        <p
+                          style={{
+                            fontSize: 11.5,
+                            color: t.muted,
+                            margin: "0 0 14px",
+                          }}
+                        >
+                          tools: {exp.tools}
+                        </p>
+                      )}
+                      {exp.blocks.map((b, j) => renderBlock(b, `${i}-${j}`))}
                     </div>
                   )}
                 </div>
