@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { labExperiments, type Block } from "./labExperiments";
+import { useState } from "react";
 
 const dark = {
   bg: "#0a0a0a",
@@ -74,15 +73,6 @@ const reading = [
   },
 ];
 
-const cyberFiles = [
-  {
-    label: "########",
-    file: "/cyber/cybersecurity-lab-manual.pdf",
-    filename: "CyberSecurity-Lab-Manual.pdf",
-    meta: "pdf · 52 pages · 5.5 mb",
-  },
-];
-
 type Theme = typeof dark;
 
 function Heading({ label, t }: { label: string; t: Theme }) {
@@ -108,109 +98,6 @@ function Heading({ label, t }: { label: string; t: Theme }) {
 export default function Home() {
   const [isLight, setIsLight] = useState(true);
   const t = isLight ? light : dark;
-
-  const [showTerminal, setShowTerminal] = useState(false);
-  const [openExperiment, setOpenExperiment] = useState<number | null>(null);
-  const [copied, setCopied] = useState<string | null>(null);
-  const terminalRef = useRef<HTMLElement>(null);
-  const [terminalScrollTick, setTerminalScrollTick] = useState(0);
-
-  // The terminal section only mounts once its nav link is clicked, so scroll after render.
-  useEffect(() => {
-    if (terminalScrollTick)
-      terminalRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [terminalScrollTick]);
-
-  function copyText(key: string, text: string) {
-    navigator.clipboard.writeText(text).then(() => {
-      setCopied(key);
-      setTimeout(() => setCopied((c) => (c === key ? null : c)), 1500);
-    });
-  }
-
-  function renderBlock(b: Block, key: string) {
-    if ("h" in b)
-      return (
-        <p
-          key={key}
-          style={{
-            fontSize: 13.5,
-            fontWeight: 700,
-            color: t.primary,
-            margin: "20px 0 8px",
-          }}
-        >
-          {b.h}
-        </p>
-      );
-    if ("p" in b)
-      return (
-        <p
-          key={key}
-          style={{
-            fontSize: 13.5,
-            color: t.secondary,
-            lineHeight: 1.75,
-            margin: "0 0 10px",
-          }}
-        >
-          {b.p}
-        </p>
-      );
-    if ("list" in b)
-      return (
-        <ul
-          key={key}
-          style={{
-            fontSize: 13.5,
-            color: t.secondary,
-            lineHeight: 1.75,
-            margin: "0 0 10px",
-            paddingLeft: 20,
-          }}
-        >
-          {b.list.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-      );
-    return (
-      <div key={key} style={{ position: "relative", margin: "0 0 12px" }}>
-        <button
-          onClick={() => copyText(key, b.code)}
-          style={{
-            position: "absolute",
-            top: 7,
-            right: 7,
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: 10.5,
-            padding: "2px 8px",
-            border: `1px solid ${t.accent}55`,
-            color: t.accent,
-            background: t.bg,
-            cursor: "pointer",
-          }}
-        >
-          {copied === key ? "copied" : "copy"}
-        </button>
-        <pre
-          style={{
-            margin: 0,
-            padding: "10px 70px 10px 14px",
-            background: t.bg,
-            border: `1px solid ${t.border}`,
-            color: t.primary,
-            fontSize: 12.5,
-            lineHeight: 1.6,
-            overflowX: "auto",
-            transition: "background 0.3s, border-color 0.3s",
-          }}
-        >
-          <code>{b.code}</code>
-        </pre>
-      </div>
-    );
-  }
 
   return (
     <div
@@ -260,21 +147,10 @@ export default function Home() {
               { href: "#projects", label: "projects" },
               { href: "#reading", label: "reading" },
               { href: "#links", label: "links" },
-              { href: "#cyber", label: "cyber" },
-              { href: "#terminal", label: "terminal" },
             ].map((l) => (
               <a
                 key={l.label}
                 href={l.href}
-                onClick={
-                  l.label === "terminal"
-                    ? (e) => {
-                        e.preventDefault();
-                        setShowTerminal(true);
-                        setTerminalScrollTick((n) => n + 1);
-                      }
-                    : undefined
-                }
                 style={{
                   color: t.secondary,
                   fontSize: 13,
@@ -573,121 +449,6 @@ export default function Home() {
             ))}
           </div>
         </section>
-
-        {/* CYBER */}
-        <section id="cyber" style={{ marginTop: 38 }}>
-          <Heading label="cyber" t={t} />
-
-          {cyberFiles.map((f) => (
-            <a
-              key={f.file}
-              href={f.file}
-              download={f.filename}
-              style={{
-                display: "flex",
-                alignItems: "baseline",
-                flexWrap: "wrap",
-                gap: 10,
-                border: `1px solid ${t.border}`,
-                background: t.panel,
-                padding: "16px 20px",
-                textDecoration: "none",
-                transition: "background 0.3s, border-color 0.3s",
-              }}
-            >
-              <span style={{ fontSize: 15, color: t.primary }}>{f.label}</span>
-
-              <span style={{ fontSize: 11, color: t.muted }}>{f.meta}</span>
-
-              <span
-                style={{
-                  marginLeft: "auto",
-                  fontSize: 11,
-                  padding: "3px 10px",
-                  border: `1px solid ${t.accent}55`,
-                  color: t.accent,
-                  background: t.bg,
-                  transition: "all 0.2s",
-                }}
-              >
-                download
-              </span>
-            </a>
-          ))}
-        </section>
-
-        {/* TERMINAL — hidden until its nav link is clicked */}
-        {showTerminal && (
-          <section id="terminal" ref={terminalRef} style={{ marginTop: 38 }}>
-            <Heading label="terminal" t={t} />
-
-            {labExperiments.map((exp, i) => {
-              const isOpen = openExperiment === i;
-              return (
-                <div
-                  key={exp.title}
-                  style={{
-                    border: `1px solid ${t.border}`,
-                    background: t.panel,
-                    marginBottom: 8,
-                    transition: "background 0.3s, border-color 0.3s",
-                  }}
-                >
-                  <button
-                    onClick={() => setOpenExperiment(isOpen ? null : i)}
-                    aria-expanded={isOpen}
-                    style={{
-                      display: "flex",
-                      alignItems: "baseline",
-                      gap: 12,
-                      width: "100%",
-                      background: "none",
-                      border: "none",
-                      padding: "13px 18px",
-                      cursor: "pointer",
-                      textAlign: "left",
-                      fontFamily: "'JetBrains Mono', monospace",
-                    }}
-                  >
-                    <span style={{ fontSize: 11, color: t.muted }}>
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span style={{ fontSize: 14, color: t.primary }}>
-                      {exp.title}
-                    </span>
-                    <span
-                      style={{
-                        marginLeft: "auto",
-                        fontSize: 11,
-                        color: t.accent,
-                        flex: "none",
-                      }}
-                    >
-                      {isOpen ? "[ − ]" : "[ + ]"}
-                    </span>
-                  </button>
-
-                  {isOpen && (
-                    <div style={{ padding: "0 18px 14px" }}>
-                      {exp.tools && (
-                        <p
-                          style={{
-                            fontSize: 11.5,
-                            color: t.muted,
-                            margin: "0 0 14px",
-                          }}
-                        >
-                          tools: {exp.tools}
-                        </p>
-                      )}
-                      {exp.blocks.map((b, j) => renderBlock(b, `${i}-${j}`))}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </section>
-        )}
 
         <div
           style={{
